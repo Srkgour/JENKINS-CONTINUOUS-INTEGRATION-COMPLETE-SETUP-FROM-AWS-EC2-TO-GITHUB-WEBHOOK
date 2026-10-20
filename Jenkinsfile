@@ -21,7 +21,7 @@ pipeline {
 
         stage('Unit Tests') {
             steps {
-                dir('project07') {
+                dir('JENKINS-CONTINUOUS-INTEGRATION-COMPLETE-SETUP-FROM-AWS-EC2-TO-GITHUB-WEBHOOK') {
                     sh 'mvn test'
                 }
             }
@@ -29,15 +29,13 @@ pipeline {
 
         stage('Package') {
             steps {
-                dir('project07') {
                     sh 'mvn clean package'
                 }
             }
-        }
 
         stage('Archive Artifact') {
             steps {
-                archiveArtifacts artifacts: 'project07/target/*.jar',
+                archiveArtifacts artifacts: 'JENKINS-CONTINUOUS-INTEGRATION-COMPLETE-SETUP-FROM-AWS-EC2-TO-GITHUB-WEBHOOK/target/*.jar',
                                  fingerprint: true
             }
         }
