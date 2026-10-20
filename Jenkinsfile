@@ -15,11 +15,9 @@ pipeline {
 
         stage('Compile') {
             steps {
-                dir('project07') {
                     sh 'mvn clean compile'
                 }
             }
-        }
 
         stage('Unit Tests') {
             steps {
