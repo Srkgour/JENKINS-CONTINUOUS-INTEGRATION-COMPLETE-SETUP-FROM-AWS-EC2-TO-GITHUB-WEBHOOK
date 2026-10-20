@@ -1,0 +1,61 @@
+
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout from Git') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Srkgour/JENKINS-CONTINUOUS-INTEGRATION-COMPLETE-SETUP-FROM-AWS-EC2-TO-GITHUB-WEBHOOK.git'
+            }
+        }
+
+
+
+        stage('Compile') {
+            steps {
+                dir('project07') {
+                    sh 'mvn clean compile'
+                }
+            }
+        }
+
+        stage('Unit Tests') {
+            steps {
+                dir('project07') {
+                    sh 'mvn test'
+                }
+            }
+        }
+
+        stage('Package') {
+            steps {
+                dir('project07') {
+                    sh 'mvn clean package'
+                }
+            }
+        }
+
+        stage('Archive Artifact') {
+            steps {
+                archiveArtifacts artifacts: 'project07/target/*.jar',
+                                 fingerprint: true
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'CI Pipeline completed successfully'
+        }
+
+        failure {
+            echo 'CI Pipeline failed. Check Console Output.'
+        }
+
+        always {
+            echo 'CI Pipeline execution completed'
+        }
+    }
+}
